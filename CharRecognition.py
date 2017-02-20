@@ -48,7 +48,7 @@ def checkIfPossibleChar(possibleChar, imgThreshold):
 
 def findListOfListsOfMatchingChars(listOfPossibleChars):
     listOfListsOfMatchingChars = []                 
-
+    #za svako slovo njegova lista matching charova
     for possibleChar in listOfPossibleChars:                       
         listOfMatchingChars = findListOfMatchingChars(possibleChar, listOfPossibleChars)        
 
@@ -57,7 +57,8 @@ def findListOfListsOfMatchingChars(listOfPossibleChars):
         if len(listOfMatchingChars) < MIN_NUMBER_OF_MATCHING_CHARS:     
             continue
         # end if
-                                
+
+        #lista koja sadrzi liste predvodjenih slova   
         listOfListsOfMatchingChars.append(listOfMatchingChars)     
 
         #ukloni one koje si dodao u listu lista
