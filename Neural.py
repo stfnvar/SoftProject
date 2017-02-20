@@ -23,20 +23,19 @@ def neural(xValues, yValues, listOfChars):
 	outputY = []
 	LOC = []
 	if not listOfChars:
-		print "noone"
+		print "Nije prosledjena tablica"
 	else:
-		print "nije nonne"
+		print "Prosledjena tablica"
 		for c in listOfChars:
-			#c = c.flatten()
-				c = image_to_feature_vector(c)
+			c = image_to_feature_vector(c)
 			LOC.append(c)
+		#endfor
 		LOC = np.array(LOC) / 255.0
-		
+	#endif
 
 	for x in xValues:
 		x = x.flatten()
-		inputX.append(x)
-		
+		inputX.append(x)	
 	#endfor
 	#outputY = yValues
 
@@ -46,18 +45,9 @@ def neural(xValues, yValues, listOfChars):
 	inputX = np.array(inputX) / 255.0
 	outputY = np_utils.to_categorical(outputY, 35)
 
-	print len(LOC[0])
-	print len(inputX[0])
-	print len(inputX[1])
-	#convertToChar(outputY[3])
-	#convertToChar(outputY[125])
-
-	# encode the labels, converting them from strings to integers
-	#le = LabelEncoder()
-	#labels = le.fit_transform(labels)
-
-	#data = np.array(data) / 255.0
-	#labels = np_utils.to_categorical(labels, 5)
+	#print len(LOC[0])
+	#print len(inputX[0])
+	#print len(inputX[1])
 
 	
 	(trainData, testData, trainLabels, testLabels) = train_test_split(
@@ -74,7 +64,7 @@ def neural(xValues, yValues, listOfChars):
 
 
 	# train the model using SGD
-	print("[INFO] compiling model...")
+	print("[INFO] Kompajliranje modela...")
 	sgd = SGD(lr=0.9)
 	model.compile(loss="binary_crossentropy", optimizer=sgd,
 		metrics=["accuracy"])
@@ -98,16 +88,19 @@ def neural(xValues, yValues, listOfChars):
 			count += 1
 	
 	print count
-	print  "Tested on 152 examples. Sucessful: ",(1.0 - float(count )/ float(len(result))) * 100, "%"
+	print  "Testirano na 152 uzoraka. Uspesno: ",(1.0 - float(count )/ float(len(result))) * 100, "%"
 
-	t2 = model.predict(LOC)
-	result2 = findResult(t2)
-	print "\n"
-	concatenated = ""
-	for i in range(0, len(result2)):
-		concatenated += str(unichr(result2[i]))
-	print concatenated
-	#print testLabels
+	if not listOfChars:
+		print "Nije prosledjena tablica"
+	else:
+		t2 = model.predict(LOC)
+		result2 = findResult(t2)
+		print "\n"
+		concatenated = ""
+		for i in range(0, len(result2)):
+			concatenated += str(unichr(result2[i]))
+		print concatenated
+		#print testLabels
 
 	#print("[INFO] evaluating on testing set...")
 	#(loss, accuracy) = model.evaluate(testData, testLabels,
